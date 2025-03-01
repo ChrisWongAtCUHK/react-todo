@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
 import { TodoLocal } from '../../services/todo-local'
-import { selectCompleted } from '../../services/getters'
-
+import { selectCompleted, selectNotCompleted } from '../../services/getters'
 
 const areAllCompleted = (state) =>
-  state.todos.length && selectCompleted(state.todos).length === state.todos.length
+  state.todos.length &&
+  selectCompleted(state.todos).length === state.todos.length
 
 const initialState = {
   todos: [],
@@ -42,13 +42,18 @@ const todoSlice = createSlice({
       TodoLocal.storeTodos(state.todos)
       return state
     },
-    completeAll: (state, action) => {
+    completeAll: (state) => {
       const completed = !areAllCompleted(state)
       state.todos = state.todos.map((todo) => ({
         ...todo,
         completed,
       }))
-      
+
+      TodoLocal.storeTodos(state.todos)
+      return state
+    },
+    clearCompleted: (state) => {
+      state.todos = selectNotCompleted(state.todos)
       TodoLocal.storeTodos(state.todos)
       return state
     },
@@ -56,6 +61,12 @@ const todoSlice = createSlice({
 })
 
 export const selectTodo = (state) => state.todo
-export const { loadTodo, createTodo, updateTodo, removeTodo, completeAll } =
-  todoSlice.actions
+export const {
+  loadTodo,
+  createTodo,
+  updateTodo,
+  removeTodo,
+  completeAll,
+  clearCompleted,
+} = todoSlice.actions
 export default todoSlice.reducer

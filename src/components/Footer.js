@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { selectTodo } from '../features/slices/todoSlice'
 import { selectFilter, setFilter } from '../features/slices/filterSlice'
+import { clearCompleted } from '../features/slices/todoSlice'
 import { getters } from '../services/getters'
 import { FILTERS } from '../constants/filter'
 
@@ -9,6 +10,7 @@ function Footer() {
   const todos = useSelector(selectTodo).todos
   const filter = useSelector(selectFilter).filter
   const itemsLeft = getters.itemsLeft(todos)
+  const completedCount = getters.completedCount(todos)
 
   const filterTitles = [
     { key: FILTERS.all, value: 'All' },
@@ -17,7 +19,11 @@ function Footer() {
   ]
 
   function onFilterSelect(filter) {
-    dispatch(setFilter({filter}))
+    dispatch(setFilter({ filter }))
+  }
+
+  function onClearCompleted() {
+    dispatch(clearCompleted())
   }
 
   return (
@@ -42,6 +48,9 @@ function Footer() {
           )
         })}
       </ul>
+      {
+        completedCount ? <button className="clear-completed" onClick={onClearCompleted}>Clear completed</button> : null
+      }
     </footer>
   )
 }
