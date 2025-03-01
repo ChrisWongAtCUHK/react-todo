@@ -12,8 +12,10 @@ function Header() {
 
   function handleSubmit(e) {
     if (e.key === 'Enter') {
-      dispatch(createTodo({name}))
-      setName(() => '')
+      if(name.trim() !== '') {
+        dispatch(createTodo({name}))
+        setName(() => '')
+      }
     }
   }
   return (
