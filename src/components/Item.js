@@ -17,7 +17,11 @@ function Item(props) {
   }
 
   function handleEdit() {
+    setEditing(() => true)
+  }
 
+  function handleRemove() {
+    props.remove(todo.id)
   }
 
   return (
@@ -25,6 +29,7 @@ function Item(props) {
       <div className="view">
         <input className="toggle" type="checkbox" checked={todo.completed} onChange={handleCompleted} />
         <label onDoubleClick={handleEdit}>{ todo.name }</label>
+        <button className="destroy" onClick={handleRemove} />
       </div>
     </li>
   )
