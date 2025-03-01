@@ -4,14 +4,12 @@ import './App.css'
 import Header from './components/Header'
 import List from './components/List'
 import { loadTodo } from './features/slices/todoSlice'
-import { TodoLocal } from './services/todo-local'
 
 function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const todos = TodoLocal.loadTodos()
-    dispatch(loadTodo({ todos }))
+    dispatch(loadTodo())
   }, [dispatch])
 
   return (

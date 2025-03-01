@@ -11,7 +11,8 @@ const todoSlice = createSlice({
   initialState,
   reducers: {
     loadTodo: (state, action) => {
-      state.todos = [...action.payload.todos]
+      const todos = TodoLocal.loadTodos()
+      state.todos = [...todos]
       return state
     },
     createTodo: (state, action) => {
