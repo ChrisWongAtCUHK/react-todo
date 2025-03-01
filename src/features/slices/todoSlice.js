@@ -11,7 +11,7 @@ function selectNotCompleted(todos) {
 }
 
 const areAllCompleted = (state) =>
-  state.length && selectCompleted(state).length === state.length
+  state.todos.length && selectCompleted(state.todos).length === state.todos.length
 
 const initialState = {
   todos: [],
