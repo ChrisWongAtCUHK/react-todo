@@ -5,17 +5,18 @@ import Item from './Item'
 
 function Header() {
   const dispatch = useDispatch()
-  const todo = useSelector(selectTodo)
+  const todos = useSelector(selectTodo).todos
+
+  function onUpdate(todo) {
+    dispatch(updateTodo({ todo }))
+  }
+
   return (
-    <section className="main">
-      <ul className="todo-list">
-        {
-          todo.todos.map((todo) => {
-            return (
-              <Item todo={todo} key={todo.id}/>
-            )
-          })
-        }
+    <section className='main'>
+      <ul className='todo-list'>
+        {todos.map((todo) => {
+          return <Item todo={todo} key={todo.id} update={onUpdate} />
+        })}
       </ul>
     </section>
   )

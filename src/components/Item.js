@@ -2,11 +2,18 @@ import { useState, useRef } from 'react'
 
 function Item(props) {
   const [editing, setEditing] = useState(false)
-  const [name, setName] = useState(props.todo.name)
+  const [todo, setTodo] = useState({...props.todo})
   const inputRef = useRef(null)
 
   function handleCompleted() {
-    props.update({id: props.todo.id, completed: !props.todo.completed})
+    const completed = !todo.completed
+    setTodo((pre) => {
+      return {
+        ...pre,
+        completed
+      }
+    })
+    props.update({id: todo.id, completed })
   }
 
   function handleEdit() {
@@ -14,10 +21,10 @@ function Item(props) {
   }
 
   return (
-    <li className={[props.todo.completed ? "completed": "", editing ? "editing": ""].join("") }>
+    <li className={[todo.completed ? "completed": "", editing ? "editing": ""].join("") }>
       <div className="view">
-        <input className="toggle" type="checkbox" checked={props.todo.completed} onChange={handleCompleted} />
-        <label onDoubleClick={handleEdit}>{ name }</label>
+        <input className="toggle" type="checkbox" checked={todo.completed} onChange={handleCompleted} />
+        <label onDoubleClick={handleEdit}>{ todo.name }</label>
       </div>
     </li>
   )
