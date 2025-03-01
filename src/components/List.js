@@ -5,11 +5,15 @@ import {
   removeTodo,
   completeAll,
 } from '../features/slices/todoSlice'
+import { selectFilter } from '../features/slices/filterSlice'
+import { getters } from '../services/getters'
 import Item from './Item'
 
 function Header() {
   const dispatch = useDispatch()
-  let todos = useSelector(selectTodo).todos
+  const todos = useSelector(selectTodo).todos
+  const filter = useSelector(selectFilter).filter
+  const visibleTodos = getters.visibleTodos(todos, filter)
 
   function onUpdate(todo) {
     dispatch(updateTodo({ todo }))
@@ -28,7 +32,7 @@ function Header() {
       <input id='toggle-all' className='toggle-all' type='checkbox' readOnly />
       <label htmlFor='toggle-all' onClick={onCompleteAll}></label>
       <ul className='todo-list'>
-        {todos.map((todo) => {
+        {visibleTodos.map((todo) => {
           return (
             <Item
               todo={todo}
