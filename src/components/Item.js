@@ -33,11 +33,26 @@ function Item(props) {
     })
   }
 
+  function onBlur() {
+    props.update({ id: todo.id, name: todo.name })
+    setEditing(() => false)
+  }
+
+  function handleSubmit(e) {
+    if (e.key === 'Enter') {
+      props.update({ id: todo.id, name: todo.name });
+      setEditing(() => false)
+    }
+    if (e.key === 'Escape') {
+      setEditing(() => false)
+    }
+  }
+
   useEffect(() => {
     if (editing) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
-  }, [editing]);
+  }, [editing])
 
   return (
     <li
@@ -57,10 +72,12 @@ function Item(props) {
         <button className='destroy' onClick={handleRemove} />
       </div>
       <input
-        className="edit"
+        className='edit'
         ref={inputRef}
         value={todo.name}
         onChange={handleChange}
+        onBlur={onBlur}
+        onKeyUp={handleSubmit}
       />
     </li>
   )
