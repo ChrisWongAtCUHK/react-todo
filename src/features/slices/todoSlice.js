@@ -1,14 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
 import { TodoLocal } from '../../services/todo-local'
+import { selectCompleted } from '../../services/getters'
 
-function selectCompleted(todos) {
-  return todos.filter((todo) => todo.completed)
-}
-
-function selectNotCompleted(todos) {
-  return todos.filter((todo) => !todo.completed)
-}
 
 const areAllCompleted = (state) =>
   state.todos.length && selectCompleted(state.todos).length === state.todos.length
