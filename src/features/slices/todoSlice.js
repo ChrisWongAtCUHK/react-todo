@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
+import { TodoLocal } from '../../services/todo-local'
 
 const initialState = {
   todos: [],
@@ -15,6 +16,7 @@ const todoSlice = createSlice({
     },
     createTodo: (state, action) => {
       state.todos = [...state.todos, { id: uuidv4(), name: action.payload.name, completed: false }]
+      TodoLocal.storeTodos(state.todos)
       return state
     },
   },
